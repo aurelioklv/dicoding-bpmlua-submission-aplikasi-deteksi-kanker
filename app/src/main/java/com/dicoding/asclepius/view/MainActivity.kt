@@ -1,11 +1,12 @@
 package com.dicoding.asclepius.view
 
-import android.Manifest
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.asclepius.R
 import com.dicoding.asclepius.databinding.ActivityMainBinding
 
@@ -14,26 +15,51 @@ class MainActivity : AppCompatActivity() {
 
     private var currentImageUri: Uri? = null
 
+    private val launcherGallery =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
+            if (it != null) {
+                currentImageUri = it
+                showImage()
+            } else {
+                showToast(getString(R.string.failed_to_pick_image))
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        updateButtonStatus()
+
+        binding.galleryButton.setOnClickListener { startGallery() }
+        binding.analyzeButton.setOnClickListener { analyzeImage() }
     }
 
     private fun startGallery() {
-        // TODO: Mendapatkan gambar dari Gallery.
+        launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 
     private fun showImage() {
-        // TODO: Menampilkan gambar sesuai Gallery yang dipilih.
+        currentImageUri?.let {
+            binding.previewImageView.setImageURI(it)
+        }
+        updateButtonStatus()
     }
 
     private fun analyzeImage() {
-        // TODO: Menganalisa gambar yang berhasil ditampilkan.
+        val intent = Intent(this, ResultActivity::class.java)
+        intent.putExtra(ResultActivity.EXTRA_IMAGE_URI, currentImageUri.toString())
+        startActivity(intent)
     }
 
     private fun moveToResult() {
         val intent = Intent(this, ResultActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun updateButtonStatus() {
+        binding.analyzeButton.isEnabled = currentImageUri != null
     }
 
     private fun showToast(message: String) {
