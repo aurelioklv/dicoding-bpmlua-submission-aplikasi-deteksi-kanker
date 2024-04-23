@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dicoding.asclepius.data.repository.ResultRepository
 import com.dicoding.asclepius.di.Injection
 import com.dicoding.asclepius.view.history.HistoryViewModel
+import com.dicoding.asclepius.view.news.NewsViewModel
 import com.dicoding.asclepius.view.result.ResultViewModel
 
 class ViewModelFactory private constructor(
@@ -17,6 +18,8 @@ class ViewModelFactory private constructor(
             return HistoryViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(ResultViewModel::class.java)) {
             return ResultViewModel(repository) as T
+        } else if (modelClass.isAssignableFrom(NewsViewModel::class.java)) {
+            return NewsViewModel() as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }

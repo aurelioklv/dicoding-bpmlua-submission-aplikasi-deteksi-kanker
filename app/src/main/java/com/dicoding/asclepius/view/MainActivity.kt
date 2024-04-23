@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.dicoding.asclepius.R
 import com.dicoding.asclepius.databinding.ActivityMainBinding
 import com.dicoding.asclepius.view.history.HistoryActivity
+import com.dicoding.asclepius.view.news.NewsActivity
 import com.dicoding.asclepius.view.result.ResultActivity
 import com.yalantis.ucrop.UCrop
 
@@ -101,7 +102,10 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-            R.id.action_news -> showToast("News")
+            R.id.action_news -> {
+                val intent = Intent(this, NewsActivity::class.java)
+                startActivity(intent)
+            }
         }
         return true
     }
