@@ -13,11 +13,14 @@
         android:theme="@style/Theme.Asclepius"
         tools:targetApi="31">
         <activity
+            android:name=".view.history.HistoryActivity"
+            android:exported="false" />
+        <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".view.ResultActivity"
+            android:name=".view.result.ResultActivity"
             android:exported="false" />
         <activity
             android:name=".view.MainActivity"

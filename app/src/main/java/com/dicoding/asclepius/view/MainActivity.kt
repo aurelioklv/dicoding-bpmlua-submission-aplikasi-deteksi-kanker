@@ -10,8 +10,11 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.dicoding.asclepius.R
 import com.dicoding.asclepius.databinding.ActivityMainBinding
+import com.dicoding.asclepius.view.history.HistoryActivity
+import com.dicoding.asclepius.view.result.ResultActivity
 import com.yalantis.ucrop.UCrop
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         updateButtonStatus()
 
@@ -55,11 +59,6 @@ class MainActivity : AppCompatActivity() {
     private fun analyzeImage() {
         val intent = Intent(this, ResultActivity::class.java)
         intent.putExtra(ResultActivity.EXTRA_IMAGE_URI, currentImageUri.toString())
-        startActivity(intent)
-    }
-
-    private fun moveToResult() {
-        val intent = Intent(this, ResultActivity::class.java)
         startActivity(intent)
     }
 
@@ -97,7 +96,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_history -> showToast("History")
+            R.id.action_history -> {
+                val intent = Intent(this, HistoryActivity::class.java)
+                startActivity(intent)
+            }
+
             R.id.action_news -> showToast("News")
         }
         return true
