@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background">#F2EEFF</color>
+    <color name="permanent_geranium_lake">#E72929</color>
+    <color name="green">#6EFFBF</color>
+    <color name="lavender">#EED5F6</color>
+    <color name="cancer">#b1a1ed</color>
 </resources>

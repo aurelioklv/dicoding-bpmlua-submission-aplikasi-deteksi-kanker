@@ -23,6 +23,12 @@ class ResultActivity : AppCompatActivity() {
             binding.resultImage.setImageURI(it)
         }
 
+        setupImageClassifier()
+        imageClassifierHelper.classifyStaticImage(imageUri)
+        supportActionBar?.hide()
+    }
+
+    private fun setupImageClassifier() {
         imageClassifierHelper = ImageClassifierHelper(
             context = this,
             classifierListener = object : ImageClassifierHelper.ClassifierListener {
@@ -35,13 +41,16 @@ class ResultActivity : AppCompatActivity() {
                         results?.let { classifications ->
                             if (classifications.isNotEmpty() && classifications[0].categories.isNotEmpty()) {
                                 println(classifications)
-                                val sortedCategories =
-                                    classifications[0].categories.sortedByDescending { it?.score }
-                                val displayResult = sortedCategories.joinToString("\n") {
-                                    "${it.label} " + NumberFormat.getPercentInstance()
-                                        .format(it.score).trim()
-                                }
-                                binding.resultText.text = displayResult
+                                classifications[0].categories.firstOrNull { it.label == "Cancer" }
+                                    ?.let {
+                                        if (it.label == "Cancer") {
+                                            binding.linearProgressBar.progress =
+                                                it.score.times(100).toInt()
+                                            val displayText = NumberFormat.getPercentInstance()
+                                                .format(it.score) + " ${it.label}"
+                                            binding.resultText.text = displayText
+                                        }
+                                    }
                             } else {
                                 binding.resultText.text = ""
                             }
@@ -50,8 +59,6 @@ class ResultActivity : AppCompatActivity() {
                 }
             }
         )
-
-        imageClassifierHelper.classifyStaticImage(imageUri)
     }
 
     companion object {

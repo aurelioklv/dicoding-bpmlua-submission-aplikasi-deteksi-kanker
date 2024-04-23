@@ -7,4 +7,8 @@
     <string name="result">Hasil Analisis</string>
     <string name="image_classifier_failed">Image classifier failed to initialize. See error logs for details</string>
     <string name="failed_to_pick_image">Failed to pick image</string>
+    <string name="crop">Crop</string>
+    <string name="save">Save</string>
+    <string name="history">History</string>
+    <string name="news">News</string>
 </resources>
